@@ -102,6 +102,9 @@ open class PinField : AppCompatEditText {
             return lineThickness + lineThickness * 0.7f
         }
 
+    var cursorColor : Int ?= null
+    var cursorWidth : Int ?= null
+
     var onTextCompleteListener: OnTextCompleteListener? = null
 
     var fieldBgColor =  ContextCompat.getColor(context,R.color.pinFieldLibraryAccent)
@@ -253,7 +256,17 @@ open class PinField : AppCompatEditText {
         }
 
         if (cursorCurrentVisible) {
+            val oldColor = paint.color
+            val oldWidth = paint.strokeWidth
+            cursorColor?.let {
+                paint.color = it
+            }
+            cursorWidth?.let {
+                paint.strokeWidth = it.toFloat()
+            }
             canvas?.drawLine(x, y1, x, y2, paint)
+            paint.color = oldColor
+            paint.strokeWidth = oldWidth
         }
 
         postInvalidateDelayed(cursorTimeout)
